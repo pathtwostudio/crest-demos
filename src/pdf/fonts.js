@@ -8,8 +8,18 @@ const fontCache = {};
 async function fetchFontBase64(name) {
   if (fontCache[name]) return fontCache[name];
 
-  const response = await fetch(FONT_URLS[name]);
+  const url = FONT_URLS[name];
+  if (!url) throw new Error(`Unknown font: ${name}`);
+
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Failed to load font ${name}: ${response.status}`);
+  }
+
   const buffer = await response.arrayBuffer();
+  if (buffer.byteLength === 0 || buffer.byteLength > 5 * 1024 * 1024) {
+    throw new Error(`Font ${name} has unexpected size: ${buffer.byteLength}`);
+  }
 
   const bytes = new Uint8Array(buffer);
   let binary = '';

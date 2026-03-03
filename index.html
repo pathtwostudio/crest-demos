@@ -31,7 +31,7 @@
         <div class="form-row form-row--2">
           <div class="form-group">
             <label class="form-label" for="mm-title">Meeting Title</label>
-            <input class="form-input" type="text" id="mm-title" name="title" required />
+            <input class="form-input" type="text" id="mm-title" name="title" required maxlength="200" />
           </div>
           <div class="form-group">
             <label class="form-label" for="mm-datetime">Date &amp; Time</label>
@@ -42,7 +42,7 @@
         <div class="form-row form-row--2">
           <div class="form-group">
             <label class="form-label" for="mm-location">Location</label>
-            <input class="form-input" type="text" id="mm-location" name="location" />
+            <input class="form-input" type="text" id="mm-location" name="location" maxlength="200" />
           </div>
           <div class="form-group">
             <label class="form-label" for="mm-next-meeting">Next Meeting Date</label>
@@ -70,7 +70,7 @@
 
         <div class="form-group">
           <label class="form-label" for="mm-notes">General Notes</label>
-          <textarea class="form-textarea" id="mm-notes" name="notes" rows="4"></textarea>
+          <textarea class="form-textarea" id="mm-notes" name="notes" rows="4" maxlength="5000"></textarea>
         </div>
 
         <div class="form-actions">
@@ -87,7 +87,7 @@
         <div class="form-row form-row--2">
           <div class="form-group">
             <label class="form-label" for="ir-title">Incident Title</label>
-            <input class="form-input" type="text" id="ir-title" name="title" required />
+            <input class="form-input" type="text" id="ir-title" name="title" required maxlength="200" />
           </div>
           <div class="form-group">
             <label class="form-label" for="ir-severity">Severity</label>
@@ -115,26 +115,26 @@
         <div class="form-row form-row--3">
           <div class="form-group">
             <label class="form-label" for="ir-reported-name">Reported By (Name)</label>
-            <input class="form-input" type="text" id="ir-reported-name" name="reportedByName" />
+            <input class="form-input" type="text" id="ir-reported-name" name="reportedByName" maxlength="200" />
           </div>
           <div class="form-group">
             <label class="form-label" for="ir-reported-role">Role</label>
-            <input class="form-input" type="text" id="ir-reported-role" name="reportedByRole" />
+            <input class="form-input" type="text" id="ir-reported-role" name="reportedByRole" maxlength="200" />
           </div>
           <div class="form-group">
             <label class="form-label" for="ir-reported-contact">Contact</label>
-            <input class="form-input" type="text" id="ir-reported-contact" name="reportedByContact" />
+            <input class="form-input" type="text" id="ir-reported-contact" name="reportedByContact" maxlength="200" />
           </div>
         </div>
 
         <div class="form-group">
           <label class="form-label" for="ir-location">Location / System Affected</label>
-          <input class="form-input" type="text" id="ir-location" name="location" />
+          <input class="form-input" type="text" id="ir-location" name="location" maxlength="300" />
         </div>
 
         <div class="form-group">
           <label class="form-label" for="ir-description">Incident Description</label>
-          <textarea class="form-textarea" id="ir-description" name="description" rows="4" required></textarea>
+          <textarea class="form-textarea" id="ir-description" name="description" rows="4" required maxlength="5000"></textarea>
         </div>
 
         <fieldset class="fieldset">
@@ -151,7 +151,7 @@
 
         <div class="form-group">
           <label class="form-label" for="ir-root-cause">Root Cause</label>
-          <textarea class="form-textarea" id="ir-root-cause" name="rootCause" rows="3"></textarea>
+          <textarea class="form-textarea" id="ir-root-cause" name="rootCause" rows="3" maxlength="5000"></textarea>
         </div>
 
         <div class="form-row form-row--2">
@@ -169,7 +169,7 @@
 
         <div class="form-group">
           <label class="form-label" for="ir-followup">Follow-up Actions</label>
-          <textarea class="form-textarea" id="ir-followup" name="followUp" rows="3"></textarea>
+          <textarea class="form-textarea" id="ir-followup" name="followUp" rows="3" maxlength="5000"></textarea>
         </div>
 
         <div class="form-actions">
@@ -186,7 +186,7 @@
         <div class="form-row form-row--3">
           <div class="form-group">
             <label class="form-label" for="ps-project-name">Project Name</label>
-            <input class="form-input" type="text" id="ps-project-name" name="projectName" required />
+            <input class="form-input" type="text" id="ps-project-name" name="projectName" required maxlength="200" />
           </div>
           <div class="form-group">
             <label class="form-label" for="ps-report-date">Report Date</label>
@@ -194,7 +194,7 @@
           </div>
           <div class="form-group">
             <label class="form-label" for="ps-manager">Project Manager</label>
-            <input class="form-input" type="text" id="ps-manager" name="projectManager" />
+            <input class="form-input" type="text" id="ps-manager" name="projectManager" maxlength="200" />
           </div>
         </div>
 
@@ -212,7 +212,7 @@
 
         <div class="form-group">
           <label class="form-label" for="ps-summary">Status Summary</label>
-          <textarea class="form-textarea" id="ps-summary" name="summary" rows="3"></textarea>
+          <textarea class="form-textarea" id="ps-summary" name="summary" rows="3" maxlength="5000"></textarea>
         </div>
 
         <fieldset class="fieldset">
@@ -235,7 +235,7 @@
 
         <div class="form-group">
           <label class="form-label" for="ps-next-steps">Next Steps</label>
-          <textarea class="form-textarea" id="ps-next-steps" name="nextSteps" rows="3"></textarea>
+          <textarea class="form-textarea" id="ps-next-steps" name="nextSteps" rows="3" maxlength="5000"></textarea>
         </div>
 
         <fieldset class="fieldset">
@@ -243,20 +243,20 @@
           <div class="form-row form-row--3">
             <div class="form-group">
               <label class="form-label" for="ps-budget-allocated">Allocated</label>
-              <input class="form-input" type="text" id="ps-budget-allocated" name="budgetAllocated" placeholder="$0.00" />
+              <input class="form-input" type="text" id="ps-budget-allocated" name="budgetAllocated" placeholder="$0.00" maxlength="50" />
             </div>
             <div class="form-group">
               <label class="form-label" for="ps-budget-spent">Spent</label>
-              <input class="form-input" type="text" id="ps-budget-spent" name="budgetSpent" placeholder="$0.00" />
+              <input class="form-input" type="text" id="ps-budget-spent" name="budgetSpent" placeholder="$0.00" maxlength="50" />
             </div>
             <div class="form-group">
               <label class="form-label" for="ps-budget-remaining">Remaining</label>
-              <input class="form-input" type="text" id="ps-budget-remaining" name="budgetRemaining" placeholder="$0.00" />
+              <input class="form-input" type="text" id="ps-budget-remaining" name="budgetRemaining" placeholder="$0.00" maxlength="50" />
             </div>
           </div>
           <div class="form-group">
             <label class="form-label" for="ps-budget-notes">Budget Notes</label>
-            <textarea class="form-textarea" id="ps-budget-notes" name="budgetNotes" rows="2"></textarea>
+            <textarea class="form-textarea" id="ps-budget-notes" name="budgetNotes" rows="2" maxlength="2000"></textarea>
           </div>
         </fieldset>
 

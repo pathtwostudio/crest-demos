@@ -13,15 +13,15 @@ function createAttendeeRow() {
   row.innerHTML = `
     <div class="form-group">
       <label class="form-label">Name</label>
-      <input class="form-input" type="text" data-field="name" />
+      <input class="form-input" type="text" data-field="name" maxlength="200" />
     </div>
     <div class="form-group">
       <label class="form-label">Role</label>
-      <input class="form-input" type="text" data-field="role" />
+      <input class="form-input" type="text" data-field="role" maxlength="200" />
     </div>
     <div class="form-group">
       <label class="form-label">Email</label>
-      <input class="form-input" type="email" data-field="email" />
+      <input class="form-input" type="email" data-field="email" maxlength="200" />
     </div>
     <button type="button" class="btn-remove" title="Remove">&times;</button>
   `;
@@ -37,17 +37,17 @@ function createAgendaRow() {
     <div style="display:flex;gap:0.75rem;width:100%;align-items:flex-start">
       <div class="form-group" style="flex:1">
         <label class="form-label">Topic</label>
-        <input class="form-input" type="text" data-field="topic" />
+        <input class="form-input" type="text" data-field="topic" maxlength="300" />
       </div>
       <button type="button" class="btn-remove" title="Remove">&times;</button>
     </div>
     <div class="form-group" style="width:100%">
       <label class="form-label">Discussion</label>
-      <textarea class="form-textarea" data-field="discussion" rows="2"></textarea>
+      <textarea class="form-textarea" data-field="discussion" rows="2" maxlength="3000"></textarea>
     </div>
     <div class="form-group" style="width:100%">
       <label class="form-label">Decisions</label>
-      <textarea class="form-textarea" data-field="decisions" rows="2"></textarea>
+      <textarea class="form-textarea" data-field="decisions" rows="2" maxlength="3000"></textarea>
     </div>
   `;
   row.querySelector('.btn-remove').addEventListener('click', () => row.remove());
@@ -60,11 +60,11 @@ function createActionRow() {
   row.innerHTML = `
     <div class="form-group" style="flex:2">
       <label class="form-label">Description</label>
-      <input class="form-input" type="text" data-field="description" />
+      <input class="form-input" type="text" data-field="description" maxlength="500" />
     </div>
     <div class="form-group">
       <label class="form-label">Assigned To</label>
-      <input class="form-input" type="text" data-field="assignedTo" />
+      <input class="form-input" type="text" data-field="assignedTo" maxlength="200" />
     </div>
     <div class="form-group">
       <label class="form-label">Due Date</label>
@@ -85,13 +85,21 @@ function createActionRow() {
   return row;
 }
 
+const ALLOWED_FIELDS = new Set([
+  'name', 'role', 'email', 'topic', 'discussion', 'decisions',
+  'description', 'assignedTo', 'dueDate', 'priority',
+]);
+
 function collectRows(containerId) {
   const container = document.getElementById(containerId);
   const rows = container.querySelectorAll('.dynamic-row');
   return Array.from(rows).map((row) => {
-    const data = {};
+    const data = Object.create(null);
     row.querySelectorAll('[data-field]').forEach((el) => {
-      data[el.dataset.field] = el.value.trim();
+      const key = el.dataset.field;
+      if (ALLOWED_FIELDS.has(key)) {
+        data[key] = el.value.trim();
+      }
     });
     return data;
   }).filter((row) => Object.values(row).some(Boolean));

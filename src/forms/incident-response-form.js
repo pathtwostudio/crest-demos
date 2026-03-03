@@ -13,11 +13,11 @@ function createTimelineRow() {
   row.innerHTML = `
     <div class="form-group" style="flex:0 0 160px">
       <label class="form-label">Time</label>
-      <input class="form-input" type="text" data-field="time" placeholder="e.g. 14:30" />
+      <input class="form-input" type="text" data-field="time" placeholder="e.g. 14:30" maxlength="100" />
     </div>
     <div class="form-group" style="flex:1">
       <label class="form-label">Event Description</label>
-      <input class="form-input" type="text" data-field="event" />
+      <input class="form-input" type="text" data-field="event" maxlength="500" />
     </div>
     <button type="button" class="btn-remove" title="Remove">&times;</button>
   `;
@@ -31,15 +31,15 @@ function createActionRow() {
   row.innerHTML = `
     <div class="form-group" style="flex:2">
       <label class="form-label">Action</label>
-      <input class="form-input" type="text" data-field="action" />
+      <input class="form-input" type="text" data-field="action" maxlength="500" />
     </div>
     <div class="form-group">
       <label class="form-label">By Whom</label>
-      <input class="form-input" type="text" data-field="byWhom" />
+      <input class="form-input" type="text" data-field="byWhom" maxlength="200" />
     </div>
     <div class="form-group">
       <label class="form-label">When</label>
-      <input class="form-input" type="text" data-field="when" />
+      <input class="form-input" type="text" data-field="when" maxlength="100" />
     </div>
     <button type="button" class="btn-remove" title="Remove">&times;</button>
   `;
@@ -47,13 +47,20 @@ function createActionRow() {
   return row;
 }
 
+const ALLOWED_FIELDS = new Set([
+  'time', 'event', 'action', 'byWhom', 'when',
+]);
+
 function collectRows(containerId) {
   const container = document.getElementById(containerId);
   const rows = container.querySelectorAll('.dynamic-row');
   return Array.from(rows).map((row) => {
-    const data = {};
+    const data = Object.create(null);
     row.querySelectorAll('[data-field]').forEach((el) => {
-      data[el.dataset.field] = el.value.trim();
+      const key = el.dataset.field;
+      if (ALLOWED_FIELDS.has(key)) {
+        data[key] = el.value.trim();
+      }
     });
     return data;
   }).filter((row) => Object.values(row).some(Boolean));

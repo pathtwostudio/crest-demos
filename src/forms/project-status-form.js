@@ -13,7 +13,7 @@ function createMilestoneRow() {
   row.innerHTML = `
     <div class="form-group" style="flex:2">
       <label class="form-label">Milestone</label>
-      <input class="form-input" type="text" data-field="name" />
+      <input class="form-input" type="text" data-field="name" maxlength="200" />
     </div>
     <div class="form-group">
       <label class="form-label">Target Date</label>
@@ -32,7 +32,7 @@ function createMilestoneRow() {
     </div>
     <div class="form-group">
       <label class="form-label">Notes</label>
-      <input class="form-input" type="text" data-field="notes" />
+      <input class="form-input" type="text" data-field="notes" maxlength="500" />
     </div>
     <button type="button" class="btn-remove" title="Remove">&times;</button>
   `;
@@ -46,7 +46,7 @@ function createRiskRow() {
   row.innerHTML = `
     <div class="form-group" style="flex:2">
       <label class="form-label">Risk</label>
-      <input class="form-input" type="text" data-field="risk" />
+      <input class="form-input" type="text" data-field="risk" maxlength="500" />
     </div>
     <div class="form-group">
       <label class="form-label">Likelihood</label>
@@ -68,7 +68,7 @@ function createRiskRow() {
     </div>
     <div class="form-group" style="flex:2">
       <label class="form-label">Mitigation</label>
-      <input class="form-input" type="text" data-field="mitigation" />
+      <input class="form-input" type="text" data-field="mitigation" maxlength="500" />
     </div>
     <button type="button" class="btn-remove" title="Remove">&times;</button>
   `;
@@ -82,11 +82,11 @@ function createTeamRow() {
   row.innerHTML = `
     <div class="form-group">
       <label class="form-label">Name</label>
-      <input class="form-input" type="text" data-field="name" />
+      <input class="form-input" type="text" data-field="name" maxlength="200" />
     </div>
     <div class="form-group">
       <label class="form-label">Role</label>
-      <input class="form-input" type="text" data-field="role" />
+      <input class="form-input" type="text" data-field="role" maxlength="200" />
     </div>
     <button type="button" class="btn-remove" title="Remove">&times;</button>
   `;
@@ -94,13 +94,22 @@ function createTeamRow() {
   return row;
 }
 
+const ALLOWED_FIELDS = new Set([
+  'name', 'targetDate', 'status', 'notes',
+  'risk', 'likelihood', 'impact', 'mitigation',
+  'role',
+]);
+
 function collectRows(containerId) {
   const container = document.getElementById(containerId);
   const rows = container.querySelectorAll('.dynamic-row');
   return Array.from(rows).map((row) => {
-    const data = {};
+    const data = Object.create(null);
     row.querySelectorAll('[data-field]').forEach((el) => {
-      data[el.dataset.field] = el.value.trim();
+      const key = el.dataset.field;
+      if (ALLOWED_FIELDS.has(key)) {
+        data[key] = el.value.trim();
+      }
     });
     return data;
   }).filter((row) => Object.values(row).some(Boolean));
