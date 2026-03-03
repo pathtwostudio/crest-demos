@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crest Demos — PDF Form Generator</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <img src="/favicon.svg" alt="" class="site-header__logo" />
+      <span class="site-header__title">Crest Demos</span>
+    </div>
+  </header>
+
+  <nav class="tab-nav">
+    <div class="tab-nav__inner">
+      <button class="tab-nav__btn tab-nav__btn--active" data-tab="meeting-minutes">Meeting Minutes</button>
+      <button class="tab-nav__btn" data-tab="incident-response">Incident Response</button>
+      <button class="tab-nav__btn" data-tab="project-status">Project Status Report</button>
+    </div>
+  </nav>
+
+  <main class="container">
+    <!-- Meeting Minutes -->
+    <section id="meeting-minutes" class="tab-panel tab-panel--active">
+      <form id="meeting-minutes-form" class="form-card">
+        <h2 class="form-card__title">Meeting Minutes</h2>
+
+        <div class="form-row form-row--2">
+          <div class="form-group">
+            <label class="form-label" for="mm-title">Meeting Title</label>
+            <input class="form-input" type="text" id="mm-title" name="title" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="mm-datetime">Date &amp; Time</label>
+            <input class="form-input" type="datetime-local" id="mm-datetime" name="datetime" required />
+          </div>
+        </div>
+
+        <div class="form-row form-row--2">
+          <div class="form-group">
+            <label class="form-label" for="mm-location">Location</label>
+            <input class="form-input" type="text" id="mm-location" name="location" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="mm-next-meeting">Next Meeting Date</label>
+            <input class="form-input" type="date" id="mm-next-meeting" name="nextMeeting" />
+          </div>
+        </div>
+
+        <fieldset class="fieldset">
+          <legend class="fieldset__legend">Attendees</legend>
+          <div class="dynamic-rows" id="mm-attendees"></div>
+          <button type="button" class="btn-add" data-add="mm-attendees">+ Add Attendee</button>
+        </fieldset>
+
+        <fieldset class="fieldset">
+          <legend class="fieldset__legend">Agenda Items</legend>
+          <div class="dynamic-rows" id="mm-agenda"></div>
+          <button type="button" class="btn-add" data-add="mm-agenda">+ Add Agenda Item</button>
+        </fieldset>
+
+        <fieldset class="fieldset">
+          <legend class="fieldset__legend">Action Items</legend>
+          <div class="dynamic-rows" id="mm-actions"></div>
+          <button type="button" class="btn-add" data-add="mm-actions">+ Add Action Item</button>
+        </fieldset>
+
+        <div class="form-group">
+          <label class="form-label" for="mm-notes">General Notes</label>
+          <textarea class="form-textarea" id="mm-notes" name="notes" rows="4"></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-primary" id="mm-submit">Generate PDF</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Incident Response -->
+    <section id="incident-response" class="tab-panel">
+      <form id="incident-response-form" class="form-card">
+        <h2 class="form-card__title">Incident Response Report</h2>
+
+        <div class="form-row form-row--2">
+          <div class="form-group">
+            <label class="form-label" for="ir-title">Incident Title</label>
+            <input class="form-input" type="text" id="ir-title" name="title" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="ir-severity">Severity</label>
+            <select class="form-select" id="ir-severity" name="severity" required>
+              <option value="">Select severity...</option>
+              <option value="Critical">Critical</option>
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row form-row--2">
+          <div class="form-group">
+            <label class="form-label" for="ir-date-occurred">Date of Occurrence</label>
+            <input class="form-input" type="datetime-local" id="ir-date-occurred" name="dateOccurred" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="ir-date-reported">Date Reported</label>
+            <input class="form-input" type="datetime-local" id="ir-date-reported" name="dateReported" required />
+          </div>
+        </div>
+
+        <div class="form-row form-row--3">
+          <div class="form-group">
+            <label class="form-label" for="ir-reported-name">Reported By (Name)</label>
+            <input class="form-input" type="text" id="ir-reported-name" name="reportedByName" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="ir-reported-role">Role</label>
+            <input class="form-input" type="text" id="ir-reported-role" name="reportedByRole" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="ir-reported-contact">Contact</label>
+            <input class="form-input" type="text" id="ir-reported-contact" name="reportedByContact" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="ir-location">Location / System Affected</label>
+          <input class="form-input" type="text" id="ir-location" name="location" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="ir-description">Incident Description</label>
+          <textarea class="form-textarea" id="ir-description" name="description" rows="4" required></textarea>
+        </div>
+
+        <fieldset class="fieldset">
+          <legend class="fieldset__legend">Timeline</legend>
+          <div class="dynamic-rows" id="ir-timeline"></div>
+          <button type="button" class="btn-add" data-add="ir-timeline">+ Add Timeline Entry</button>
+        </fieldset>
+
+        <fieldset class="fieldset">
+          <legend class="fieldset__legend">Actions Taken</legend>
+          <div class="dynamic-rows" id="ir-actions"></div>
+          <button type="button" class="btn-add" data-add="ir-actions">+ Add Action</button>
+        </fieldset>
+
+        <div class="form-group">
+          <label class="form-label" for="ir-root-cause">Root Cause</label>
+          <textarea class="form-textarea" id="ir-root-cause" name="rootCause" rows="3"></textarea>
+        </div>
+
+        <div class="form-row form-row--2">
+          <div class="form-group">
+            <label class="form-label" for="ir-resolution-status">Resolution Status</label>
+            <select class="form-select" id="ir-resolution-status" name="resolutionStatus">
+              <option value="">Select status...</option>
+              <option value="Resolved">Resolved</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Pending">Pending</option>
+              <option value="Escalated">Escalated</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="ir-followup">Follow-up Actions</label>
+          <textarea class="form-textarea" id="ir-followup" name="followUp" rows="3"></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-primary" id="ir-submit">Generate PDF</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Project Status Report -->
+    <section id="project-status" class="tab-panel">
+      <form id="project-status-form" class="form-card">
+        <h2 class="form-card__title">Project Status Report</h2>
+
+        <div class="form-row form-row--3">
+          <div class="form-group">
+            <label class="form-label" for="ps-project-name">Project Name</label>
+            <input class="form-input" type="text" id="ps-project-name" name="projectName" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="ps-report-date">Report Date</label>
+            <input class="form-input" type="date" id="ps-report-date" name="reportDate" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="ps-manager">Project Manager</label>
+            <input class="form-input" type="text" id="ps-manager" name="projectManager" />
+          </div>
+        </div>
+
+        <div class="form-row form-row--2">
+          <div class="form-group">
+            <label class="form-label" for="ps-status">Overall Status</label>
+            <select class="form-select" id="ps-status" name="overallStatus" required>
+              <option value="">Select status...</option>
+              <option value="On Track">On Track</option>
+              <option value="At Risk">At Risk</option>
+              <option value="Off Track">Off Track</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="ps-summary">Status Summary</label>
+          <textarea class="form-textarea" id="ps-summary" name="summary" rows="3"></textarea>
+        </div>
+
+        <fieldset class="fieldset">
+          <legend class="fieldset__legend">Milestones</legend>
+          <div class="dynamic-rows" id="ps-milestones"></div>
+          <button type="button" class="btn-add" data-add="ps-milestones">+ Add Milestone</button>
+        </fieldset>
+
+        <fieldset class="fieldset">
+          <legend class="fieldset__legend">Risks</legend>
+          <div class="dynamic-rows" id="ps-risks"></div>
+          <button type="button" class="btn-add" data-add="ps-risks">+ Add Risk</button>
+        </fieldset>
+
+        <fieldset class="fieldset">
+          <legend class="fieldset__legend">Team Members</legend>
+          <div class="dynamic-rows" id="ps-team"></div>
+          <button type="button" class="btn-add" data-add="ps-team">+ Add Team Member</button>
+        </fieldset>
+
+        <div class="form-group">
+          <label class="form-label" for="ps-next-steps">Next Steps</label>
+          <textarea class="form-textarea" id="ps-next-steps" name="nextSteps" rows="3"></textarea>
+        </div>
+
+        <fieldset class="fieldset">
+          <legend class="fieldset__legend">Budget (Optional)</legend>
+          <div class="form-row form-row--3">
+            <div class="form-group">
+              <label class="form-label" for="ps-budget-allocated">Allocated</label>
+              <input class="form-input" type="text" id="ps-budget-allocated" name="budgetAllocated" placeholder="$0.00" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ps-budget-spent">Spent</label>
+              <input class="form-input" type="text" id="ps-budget-spent" name="budgetSpent" placeholder="$0.00" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ps-budget-remaining">Remaining</label>
+              <input class="form-input" type="text" id="ps-budget-remaining" name="budgetRemaining" placeholder="$0.00" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="ps-budget-notes">Budget Notes</label>
+            <textarea class="form-textarea" id="ps-budget-notes" name="budgetNotes" rows="2"></textarea>
+          </div>
+        </fieldset>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-primary" id="ps-submit">Generate PDF</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
