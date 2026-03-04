@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crest Demos — Form Gallery</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <img src="/favicon.svg" alt="" class="site-header__logo" />
+      <span class="site-header__title">Crest Demos</span>
+      <nav style="margin-left: auto; display: flex; gap: 1rem; font-size: var(--font-size-sm);">
+        <a href="/" style="color: var(--color-gray-500); text-decoration: none;">Forms</a>
+        <a href="/chat.html" style="color: var(--color-gray-500); text-decoration: none;">Chat Builder</a>
+        <a href="/gallery.html" style="color: var(--color-primary); text-decoration: none; font-weight: 600;">Gallery</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Auth Gate -->
+  <div id="auth-gate" class="auth-gate">
+    <div class="auth-gate__title">Form Gallery</div>
+    <div class="auth-gate__subtitle">Enter the passphrase to browse saved forms.</div>
+    <div class="auth-gate__form">
+      <input class="form-input" type="password" id="auth-input" placeholder="Passphrase" autocomplete="off" />
+      <button class="btn-primary" id="auth-btn">Enter</button>
+    </div>
+    <div class="auth-gate__error" id="auth-error"></div>
+  </div>
+
+  <!-- Gallery Content (hidden until auth) -->
+  <div id="gallery-content" class="container" style="display: none;">
+    <div id="gallery-grid" class="gallery-grid"></div>
+
+    <div id="gallery-detail" class="gallery-detail">
+      <div class="gallery-detail__header">
+        <button class="gallery-detail__back" id="btn-back">&larr; Back</button>
+        <h2 id="detail-title" style="margin: 0; font-size: var(--font-size-xl); color: var(--color-gray-900);"></h2>
+      </div>
+      <div class="gallery-detail__actions">
+        <button class="btn-primary" id="btn-detail-pdf">Generate PDF</button>
+        <button class="btn-action" id="btn-detail-json" style="padding: var(--spacing-2) var(--spacing-4); font-family: var(--font-family); font-size: var(--font-size-sm); color: var(--color-gray-700); background: var(--color-white); border: 1px solid var(--color-gray-300); border-radius: var(--radius-md); cursor: pointer;">Export JSON</button>
+      </div>
+      <div id="detail-preview"></div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/chat/gallery-main.js"></script>
+</body>
+</html>

@@ -1,3 +1,7 @@
 name = "crest-demos"
 compatibility_date = "2024-09-23"
 pages_build_output_dir = "dist"
+
+[[kv_namespaces]]
+binding = "FORMS_KV"
+id = "e78fa83451a1479fab6c024c56487d11"

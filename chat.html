@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crest Demos — Form Builder Chat</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <img src="/favicon.svg" alt="" class="site-header__logo" />
+      <span class="site-header__title">Crest Demos</span>
+      <nav style="margin-left: auto; display: flex; gap: 1rem; font-size: var(--font-size-sm);">
+        <a href="/" style="color: var(--color-gray-500); text-decoration: none;">Forms</a>
+        <a href="/chat.html" style="color: var(--color-primary); text-decoration: none; font-weight: 600;">Chat Builder</a>
+        <a href="/gallery.html" style="color: var(--color-gray-500); text-decoration: none;">Gallery</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Auth Gate -->
+  <div id="auth-gate" class="auth-gate">
+    <div class="auth-gate__title">Form Builder</div>
+    <div class="auth-gate__subtitle">Enter the passphrase to start designing forms with AI.</div>
+    <div class="auth-gate__form">
+      <input class="form-input" type="password" id="auth-input" placeholder="Passphrase" autocomplete="off" />
+      <button class="btn-primary" id="auth-btn">Enter</button>
+    </div>
+    <div class="auth-gate__error" id="auth-error"></div>
+  </div>
+
+  <!-- Chat Layout (hidden until auth) -->
+  <div id="chat-layout" class="chat-layout">
+    <!-- Chat Panel -->
+    <div class="chat-panel">
+      <div class="chat-messages" id="chat-messages"></div>
+      <div class="chat-input-area">
+        <div class="chat-input-row">
+          <textarea id="chat-input" placeholder="Describe a form..." rows="1"></textarea>
+          <button class="chat-send-btn" id="chat-send">Send</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preview Panel -->
+    <div class="preview-panel">
+      <div class="preview-toolbar">
+        <span class="preview-toolbar__title">Form Preview</span>
+        <button class="btn-action" id="btn-pdf" disabled>PDF</button>
+        <button class="btn-action" id="btn-export-json" disabled>JSON</button>
+        <button class="btn-action" id="btn-export-chat" disabled>Chat Log</button>
+        <button class="btn-action" id="btn-save-gallery" disabled>Save</button>
+      </div>
+      <div class="preview-content" id="preview-content">
+        <div class="preview-empty">
+          <div class="preview-empty__icon">&#9997;</div>
+          <div>Describe a form in the chat to see it here.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/chat/chat-main.js"></script>
+</body>
+</html>
