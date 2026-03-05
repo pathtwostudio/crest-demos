@@ -4,7 +4,7 @@ import '../styles/form.css';
 import '../styles/components.css';
 import '../styles/chat.css';
 
-import { setAuthToken, validateAuth, sendChatMessage } from './chat-api.js';
+import { setAuthToken, getAuthToken, validateAuth, sendChatMessage } from './chat-api.js';
 import {
   initChatUI, addUserMessage, addAssistantMessage, addSystemMessage,
   setLoading, extractFormDefinition, getMessages, getRawMessages,
@@ -65,6 +65,19 @@ document.addEventListener('DOMContentLoaded', () => {
   authInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') handleAuth();
   });
+
+  // Auto-login if session token exists
+  const savedToken = getAuthToken();
+  if (savedToken) {
+    validateAuth(savedToken).then((valid) => {
+      if (valid) {
+        setAuthToken(savedToken);
+        authGate.style.display = 'none';
+        chatLayout.classList.add('chat-layout--visible');
+        addSystemMessage('Connected. Describe the form you want to create.');
+      }
+    }).catch(() => {});
+  }
 
   // Init chat UI
   initChatUI({

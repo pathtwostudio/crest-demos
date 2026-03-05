@@ -4,7 +4,7 @@ import '../styles/form.css';
 import '../styles/components.css';
 import '../styles/gallery.css';
 
-import { setAuthToken, validateAuth, loadGalleryIndex, loadGalleryForm } from './chat-api.js';
+import { setAuthToken, getAuthToken, validateAuth, loadGalleryIndex, loadGalleryForm } from './chat-api.js';
 import { renderForm } from './form-renderer.js';
 import { collectFormData } from './form-data-collector.js';
 import { generateGenericPDF } from '../pdf/generic-form-pdf.js';
@@ -57,6 +57,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Enter') handleAuth();
   });
 
+  // Auto-login if session token exists
+  const savedToken = getAuthToken();
+  if (savedToken) {
+    validateAuth(savedToken).then((valid) => {
+      if (valid) {
+        setAuthToken(savedToken);
+        authGate.style.display = 'none';
+        galleryContent.style.display = 'block';
+        loadIndex();
+      }
+    }).catch(() => {});
+  }
+
   async function loadIndex() {
     galleryGrid.innerHTML = '<p style="text-align:center;color:var(--color-gray-400)">Loading...</p>';
     try {
@@ -74,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
         card.innerHTML = `
           <div class="gallery-card__title">${escapeHtml(item.title)}</div>
           ${item.subtitle ? `<div class="gallery-card__subtitle">${escapeHtml(item.subtitle)}</div>` : ''}
-          <div class="gallery-card__meta">Saved ${escapeHtml(new Date(item.savedAt).toLocaleDateString())}</div>
+          <div class="gallery-card__meta">Created ${escapeHtml(new Date(item.createdAt || item.savedAt).toLocaleString())}</div>
         `;
         card.addEventListener('click', () => showDetail(item.id));
         galleryGrid.appendChild(card);

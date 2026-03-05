@@ -23,6 +23,9 @@ export function exportChat(messages) {
 }
 
 export async function saveGallery(formDefinition) {
+  if (!formDefinition.createdAt) {
+    formDefinition.createdAt = new Date().toISOString();
+  }
   return saveToGallery(formDefinition);
 }
 

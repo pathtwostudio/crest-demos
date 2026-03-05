@@ -2,10 +2,11 @@
  * Wrapper for /api/chat and /api/gallery endpoints.
  */
 
-let authToken = '';
+let authToken = sessionStorage.getItem('authToken') || '';
 
 export function setAuthToken(token) {
   authToken = token;
+  sessionStorage.setItem('authToken', token);
 }
 
 export function getAuthToken() {

@@ -106,6 +106,7 @@ export async function onRequestPost(context) {
     id: def.id,
     title: String(def.title).slice(0, 200),
     subtitle: String(def.subtitle || '').slice(0, 200),
+    createdAt: def.createdAt || new Date().toISOString(),
     savedAt: new Date().toISOString(),
   };
 
