@@ -7,7 +7,7 @@ import '../styles/chat.css';
 import { setAuthToken, getAuthToken, validateAuth, sendChatMessage } from './chat-api.js';
 import {
   initChatUI, addUserMessage, addAssistantMessage, addSystemMessage,
-  setLoading, extractFormDefinition, getMessages, getRawMessages,
+  setLoading, extractFormDefinition, getMessages, getRawMessages, pushMessage,
 } from './chat-ui.js';
 import { renderForm } from './form-renderer.js';
 import { collectFormData } from './form-data-collector.js';
@@ -50,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
         authGate.style.display = 'none';
         chatLayout.classList.add('chat-layout--visible');
         addSystemMessage('Connected. Describe the form you want to create.');
+        loadEditForm();
       } else {
         authError.textContent = 'Invalid passphrase.';
       }
@@ -75,6 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
         authGate.style.display = 'none';
         chatLayout.classList.add('chat-layout--visible');
         addSystemMessage('Connected. Describe the form you want to create.');
+        loadEditForm();
       }
     }).catch(() => {});
   }
@@ -86,6 +88,37 @@ document.addEventListener('DOMContentLoaded', () => {
     sendButton: document.getElementById('chat-send'),
     onSend: handleUserMessage,
   });
+
+  // Load form from gallery for editing
+  function loadEditForm() {
+    const params = new URLSearchParams(window.location.search);
+    if (!params.has('edit')) return;
+
+    const raw = localStorage.getItem('editForm');
+    if (!raw) return;
+    localStorage.removeItem('editForm');
+
+    try {
+      const formDef = JSON.parse(raw);
+      if (!formDef || !formDef.title) return;
+
+      currentFormId = formDef.id || crypto.randomUUID();
+      formDef.id = currentFormId;
+      currentFormDef = formDef;
+      renderForm(previewContent, formDef);
+      setActionButtonsEnabled(true);
+
+      // Seed the chat history so the AI knows about the existing form
+      const formJson = JSON.stringify({ formDefinition: formDef }, null, 2);
+      const seedContent = `Here is the current form definition:\n\n\`\`\`json\n${formJson}\n\`\`\`\n\nYou can now describe changes to this form.`;
+      addSystemMessage(`Loaded "${formDef.title}" from gallery. Describe changes in the chat.`);
+      // Add to message history as assistant context so the AI knows the form
+      pushMessage('assistant', seedContent);
+    } catch { /* ignore invalid data */ }
+
+    // Clean URL
+    window.history.replaceState({}, '', '/chat.html');
+  }
 
   // Handle user message
   async function handleUserMessage(text) {

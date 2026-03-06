@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const detailPreview = document.getElementById('detail-preview');
   const detailTitle = document.getElementById('detail-title');
   const btnBack = document.getElementById('btn-back');
+  const btnEdit = document.getElementById('btn-detail-edit');
   const btnPdf = document.getElementById('btn-detail-pdf');
   const btnJson = document.getElementById('btn-detail-json');
 
@@ -135,6 +136,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   btnJson.addEventListener('click', () => {
     if (currentFormDef) exportJSON(currentFormDef);
+  });
+
+  btnEdit.addEventListener('click', () => {
+    if (!currentFormDef) return;
+    localStorage.setItem('editForm', JSON.stringify(currentFormDef));
+    window.location.href = '/chat.html?edit=1';
   });
 });
 
