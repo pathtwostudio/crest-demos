@@ -58,8 +58,11 @@ export function addUserMessage(text) {
 export function addAssistantMessage(text) {
   messages.push({ role: 'assistant', content: text });
 
-  // Strip JSON fences from display text
-  const displayText = text.replace(/```json\s*\n[\s\S]*?\n```/g, '').trim();
+  // Strip JSON fences from display text (case-insensitive, whitespace-tolerant)
+  let displayText = text.replace(/```json\s*\n[\s\S]*?\s*```/gi, '').trim();
+
+  // Strip bare JSON with formDefinition if no fences were used
+  displayText = displayText.replace(/\{\s*"formDefinition"\s*:\s*\{[\s\S]*\}\s*\}/g, '').trim();
 
   const el = document.createElement('div');
   el.className = 'chat-message chat-message--assistant';
@@ -143,14 +146,25 @@ function validateFormDef(def) {
  * Returns the parsed object or null. Validates structure before returning.
  */
 export function extractFormDefinition(text) {
-  const match = text.match(/```json\s*\n([\s\S]*?)\n```/);
-  if (!match) return null;
-  try {
-    const parsed = JSON.parse(match[1]);
-    const def = parsed.formDefinition;
-    if (!def || !validateFormDef(def)) return null;
-    return def;
-  } catch {
-    return null;
+  // Try fenced JSON first (case-insensitive, whitespace-tolerant)
+  const fenceMatch = text.match(/```json\s*\n([\s\S]*?)\s*```/i);
+  if (fenceMatch) {
+    try {
+      const parsed = JSON.parse(fenceMatch[1]);
+      const def = parsed.formDefinition;
+      if (def && validateFormDef(def)) return def;
+    } catch { /* fall through */ }
   }
+
+  // Fallback: bare JSON object containing formDefinition
+  const bareMatch = text.match(/\{\s*"formDefinition"\s*:\s*\{[\s\S]*\}\s*\}/);
+  if (bareMatch) {
+    try {
+      const parsed = JSON.parse(bareMatch[0]);
+      const def = parsed.formDefinition;
+      if (def && validateFormDef(def)) return def;
+    } catch { /* ignore */ }
+  }
+
+  return null;
 }
